@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+
+<h2>Settings</h2>
+
+<!-- <form action='/user-info-change' method='POST' id='info-change' class='user-info'>
+ -->
+<div class='user-info' id='password-change'>
+<form action='/old-password' method='POST' id='old-password-form' class='user-info'>
+    Password: <input type='text' name='old-password' id='old-password'>
+    <input type='submit' value='Submit'>
+</form>
+<form action='/new-info' method='POST' id='new-password-form' class='user-info'>    
+    New Password: <input type='password' name='new-password' id='new-password' disabled>
+    <input type='submit' value='Submit' id='change-pass-submit' disabled>
+</form>
+</div>
+
+   <!--  <br>
+    Age: <input type='number' name='age' id='age'>
+    <br>
+    ZipCode: <input type='text' name='zipcode' id='zipcode'>
+    <br>
+    <input type='submit' value='Submit'>
+</form> -->
+
+{% endblock %}
+
+{% block javascript %}user_setttings{% endblock %}

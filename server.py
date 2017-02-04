@@ -210,6 +210,8 @@ def sign_in_process():
     user_id = user_object.user_id
     session['user_id'] = user_id
     session['logged_in'] = True
+    session['email'] = user_object.email
+
     print(session)
     flash("Logged In")
     return redirect("/users/" + str(user_id))
@@ -253,6 +255,7 @@ def register_process():
 
     session['user_id'] = user_object.user_id
     session['logged_in'] = True
+    session['email'] = user_object.email
     print(session)
     flash("Logged In")
     return redirect("/")
@@ -283,6 +286,55 @@ def search():
 
     return render_template('results.html',
                            movies=movies)
+
+
+@app.route('/user-settings')
+def user_settings():
+    return render_template('user_settings.html')
+
+
+@app.route('/old-password', methods=['POST'])
+def check_old_password():
+
+    old_password = request.form.get('oldPassword')
+
+    user_id = session['user_id']
+
+    user_object = User.query.filter_by(user_id=user_id).one()
+    # print '#############User: ' + user_object
+
+    user_password = user_object.password
+
+    if user_password == old_password:
+        return 'Correct'
+
+    else:
+        return 'Incorrect'
+
+
+@app.route('/new-info', methods=['POST'])
+def update_user_info():
+
+    info_type = request.form.get('type')
+    new_info = request.form.get('newInfo')
+    print info_type
+
+    user_id = session['user_id']
+
+    user_object = User.query.filter_by(user_id=user_id)
+
+    if info_type == 'password':
+        user_object.password = new_info
+    elif info_type == 'zipcode':
+        user_object.zipcode = new_info
+    elif info_type == 'age':
+        user_object.age = new_info
+    else:
+        return 'something went wrong'
+
+    return info_type
+
+
 
 
 if __name__ == "__main__":
